@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ entity }}</h1>
+{% if error %}<p>Error: {{ error }}</p>{% endif %}
+<form method="post">
+{% for name, kind, opts in fields %}
+<p>{{ name }}<br>
+{% if kind == 'textarea' %}
+<textarea name="{{ name }}">{{ values.get(name, '') }}</textarea>
+{% elif kind == 'select' %}
+<select name="{{ name }}">
+{% for value, label in opts %}
+<option value="{{ value }}" {{ 'selected' if values.get(name, '') == value else '' }}>{{ label }}</option>
+{% endfor %}
+</select>
+{% elif kind == 'checkbox' %}
+<input type="checkbox" name="{{ name }}" {{ 'checked' if values.get(name) else '' }}>
+{% else %}
+<input type="{{ kind }}" name="{{ name }}" value="{{ values.get(name, '') }}">
+{% endif %}
+</p>
+{% endfor %}
+<button type="submit">save</button>
+</form>
+{% endblock %}

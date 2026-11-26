@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ entity }}</h1>
+<p><a href="{{ url_for('form_page', entity=entity) }}">new</a></p>
+<table border="1">
+<tr>{% for c in columns %}<th>{{ c }}</th>{% endfor %}<th></th></tr>
+{% for r in rows %}
+<tr>
+{% for c in columns %}<td>{{ '' if r[c] is none else r[c] }}</td>{% endfor %}
+<td>
+<a href="{{ url_for('form_page', entity=entity, item_id=r[key]) }}">edit</a>
+<form method="post" action="{{ url_for('delete_page', entity=entity, item_id=r[key]) }}" style="display:inline">
+<button type="submit">delete</button>
+</form>
+</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
